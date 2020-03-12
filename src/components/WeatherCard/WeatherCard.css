@@ -1,0 +1,6 @@
+.WeatherCard {
+    border: 1px solid gray;
+    width: 175px;
+    margin: 10px;
+    border-radius: 5px;
+}

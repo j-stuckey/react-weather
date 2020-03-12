@@ -1,26 +1,48 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { WeatherCard } from 'components';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+function App(props) {
+    const data = [
+        { day: 'Monday', high: 62, low: 42, forecast: 'Clear' },
+        { day: 'Tuesday', high: 50, low: 39, forecast: 'Cloudy' },
+        { day: 'Wednesday', high: 65, low: 33, forecast: 'Rainy' },
+        { day: 'Thursday', high: 53, low: 50, forecast: 'Partly Cloudy' },
+        { day: 'Friday', high: 70, low: 60, forecast: 'Clear' },
+        { day: 'Saturday', high: 50, low: 39, forecast: 'Windy' },
+        { day: 'Sunday', high: 65, low: 33, forecast: 'Rainy' },
+    ];
+
+    return (
+        <div className="App">
+            {data.map((item, index) => (
+                <WeatherCard key={index} data={item} />
+            ))}
+        </div>
+    );
+}
+
+export class ErrorBoundary extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            hasError: false
+        };
+    }
+
+    componentDidCatch(error, info) {
+        // Display fallback UI
+        this.setState({ hasError: true });
+        // You can also log the error to an error reporting service
+    }
+
+    render() {
+        if (this.state.hasError) {
+            return <h1>Something went wrong.</h1>;
+        }
+        return this.props.children;
+    }
 }
 
 export default App;
