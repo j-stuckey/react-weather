@@ -14,15 +14,29 @@ function App(props) {
         { day: 'Sunday', high: 65, low: 33, forecast: 'Rain' }
     ];
 
+    const [city, setCity] = useState('Jersey City, NJ');
+    const [value, setValue] = useState('');
+
+    function handleSubmit(e) {
+        e.preventDefault();
+        setCity(value);
+        setValue('');
+    }
+
     return (
         <div className="App">
-            <Router>
-                {data.map((item, index) => (
-                    <Link key={index} to={item.day} className="Link">
-                        <WeatherCard data={item} />
-                    </Link>
-                ))}
-            </Router>
+            {/*<form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    name="city"
+                    value={value}
+                    onChange={e => setValue(e.target.value)}
+                />
+            </form>*/}
+
+            {data.map((item, index) => (
+                <WeatherCard key={index} data={item} />
+            ))}
         </div>
     );
 }

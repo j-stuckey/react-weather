@@ -7,13 +7,3 @@
     padding: 20px;
     min-height: 100vh;
 }
-
-.Link:active, .Link:visited, .Link:link {
-    color: black;
-    text-decoration: none;
-}
-
-a.Link {
-    width: 175px;
-    margin: 10px;
-}
