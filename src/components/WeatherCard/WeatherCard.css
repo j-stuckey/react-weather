@@ -1,6 +1,10 @@
 .WeatherCard {
     border: 1px solid gray;
     width: 175px;
-    margin: 10px;
+    /* margin: 20px; */
     border-radius: 5px;
+}
+
+.WeatherCard:focus {
+    outline: blue;
 }

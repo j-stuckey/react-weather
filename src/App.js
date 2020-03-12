@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link, BrowserRouter as Router } from 'react-router-dom';
 import { WeatherCard } from 'components';
 import './App.css';
 
@@ -6,18 +7,22 @@ function App(props) {
     const data = [
         { day: 'Monday', high: 62, low: 42, forecast: 'Clear' },
         { day: 'Tuesday', high: 50, low: 39, forecast: 'Cloudy' },
-        { day: 'Wednesday', high: 65, low: 33, forecast: 'Rainy' },
+        { day: 'Wednesday', high: 65, low: 33, forecast: 'Rain' },
         { day: 'Thursday', high: 53, low: 50, forecast: 'Partly Cloudy' },
         { day: 'Friday', high: 70, low: 60, forecast: 'Clear' },
         { day: 'Saturday', high: 50, low: 39, forecast: 'Windy' },
-        { day: 'Sunday', high: 65, low: 33, forecast: 'Rainy' },
+        { day: 'Sunday', high: 65, low: 33, forecast: 'Rain' }
     ];
 
     return (
         <div className="App">
-            {data.map((item, index) => (
-                <WeatherCard key={index} data={item} />
-            ))}
+            <Router>
+                {data.map((item, index) => (
+                    <Link key={index} to={item.day} className="Link">
+                        <WeatherCard data={item} />
+                    </Link>
+                ))}
+            </Router>
         </div>
     );
 }

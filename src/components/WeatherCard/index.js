@@ -1,6 +1,5 @@
 import React from 'react';
 import WeatherIcon from 'components/WeatherIcon';
-import Sunny from 'assets/Sunny.png';
 import './WeatherCard.css';
 
 function WeatherCard(props) {
