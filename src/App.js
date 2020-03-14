@@ -1,40 +1,34 @@
-import React, { useState } from 'react';
-import { Link, BrowserRouter as Router } from 'react-router-dom';
+import React from 'react';
 import { WeatherCard } from 'components';
 import './App.css';
+import { CLEAR, CLOUDY, RAIN, PARTLY_CLOUDY, WINDY } from 'utils/constants';
+import { getRandomIntInclusive } from 'modules/numbers';
 
 function App(props) {
-    const data = [
-        { day: 'Monday', high: 62, low: 42, forecast: 'Clear' },
-        { day: 'Tuesday', high: 50, low: 39, forecast: 'Cloudy' },
-        { day: 'Wednesday', high: 65, low: 33, forecast: 'Rain' },
-        { day: 'Thursday', high: 53, low: 50, forecast: 'Partly Cloudy' },
-        { day: 'Friday', high: 70, low: 60, forecast: 'Clear' },
-        { day: 'Saturday', high: 50, low: 39, forecast: 'Windy' },
-        { day: 'Sunday', high: 65, low: 33, forecast: 'Rain' }
+    const days = [
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday',
+        'Sunday'
     ];
 
-    const [city, setCity] = useState('Jersey City, NJ');
-    const [value, setValue] = useState('');
+    const forecasts = [CLEAR, CLOUDY, RAIN, PARTLY_CLOUDY, WINDY];
 
-    function handleSubmit(e) {
-        e.preventDefault();
-        setCity(value);
-        setValue('');
-    }
+    const weatherData = days.map(day => {
+        return {
+            day,
+            high: Math.round(getRandomIntInclusive(55, 70)),
+            low: Math.round(getRandomIntInclusive(40, 49)),
+            forecast: forecasts[Math.floor(Math.random() * forecasts.length)]
+        };
+    });
 
     return (
         <div className="App">
-            {/*<form onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    name="city"
-                    value={value}
-                    onChange={e => setValue(e.target.value)}
-                />
-            </form>*/}
-
-            {data.map((item, index) => (
+            {weatherData.map((item, index) => (
                 <WeatherCard key={index} data={item} />
             ))}
         </div>
