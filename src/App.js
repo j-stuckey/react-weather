@@ -1,5 +1,6 @@
-import React from 'react';
-import { WeatherCard } from 'components';
+import React, { useEffect, useState } from 'react';
+import { WeatherCard, FlexContainer } from 'components';
+import { getWeatherData } from 'modules/fetchData.js';
 import './App.css';
 import { CLEAR, CLOUDY, RAIN, PARTLY_CLOUDY, WINDY } from 'utils/constants';
 import { getRandomIntInclusive } from 'modules/numbers';
@@ -17,7 +18,7 @@ function App(props) {
 
     const forecasts = [CLEAR, CLOUDY, RAIN, PARTLY_CLOUDY, WINDY];
 
-    const weatherData = days.map(day => {
+    const weatherData = days.map((day, index) => {
         return {
             day,
             high: Math.round(getRandomIntInclusive(55, 70)),
@@ -26,11 +27,54 @@ function App(props) {
         };
     });
 
+    const [text, setText] = useState('');
+    const [searchTerm, setSearchTerm] = useState('');
+    const [data, setData] = useState('');
+
+    useEffect(() => {
+        // getWeatherData(searchTerm).then(data => {
+        //     setData(data);
+        // });
+    }, [searchTerm]);
+
+    const handleSubmit = e => {
+        e.preventDefault();
+        setSearchTerm(text);
+
+        getWeatherData(searchTerm).then(response => {
+            // console.log(response.results[0]);
+            // console.log(response.results[0].geometry.location);
+            setData(response);
+        });
+        setText('');
+    };
+
     return (
         <div className="App">
-            {weatherData.map((item, index) => (
-                <WeatherCard key={index} data={item} />
-            ))}
+            <form onSubmit={handleSubmit}>
+                <input
+                    autoComplete="off"
+                    type="text"
+                    name="searchTerm"
+                    placeholder="Search here"
+                    value={text}
+                    onChange={e => setText(e.target.value)}
+                />
+            </form>
+            <h1>{searchTerm}</h1>
+            {data ? (
+                <p>
+                    {data.results[0].geometry.location.lat},
+                    {data.results[0].geometry.location.lng}{' '}
+                </p>
+            ) : (
+                ''
+            )}
+            <FlexContainer type="row">
+                {weatherData.map((item, index) => (
+                    <WeatherCard key={index} data={item} />
+                ))}
+            </FlexContainer>
         </div>
     );
 }
