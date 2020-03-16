@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import { connect } from 'react-redux';
 import { WeatherCard, FlexContainer } from 'components';
+import { changeFoo } from 'actions';
 import { getWeatherData } from 'modules/fetchData.js';
 import './App.css';
 import { CLEAR, CLOUDY, RAIN, PARTLY_CLOUDY, WINDY } from 'utils/constants';
@@ -41,12 +43,14 @@ function App(props) {
         e.preventDefault();
         setSearchTerm(text);
 
-        getWeatherData(searchTerm).then(response => {
-            // console.log(response.results[0]);
-            // console.log(response.results[0].geometry.location);
-            setData(response);
-        });
-        setText('');
+        props.dispatch(changeFoo(searchTerm));
+
+        // getWeatherData(searchTerm).then(response => {
+        //     // console.log(response.results[0]);
+        //     // console.log(response.results[0].geometry.location);
+        //     setData(response);
+        // });
+        // setText('');
     };
 
     return (
@@ -102,4 +106,8 @@ export class ErrorBoundary extends React.Component {
     }
 }
 
-export default App;
+const mapStateToProps = state => {
+    return {};
+};
+
+export default connect(mapStateToProps)(App);
