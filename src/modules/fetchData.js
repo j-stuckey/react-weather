@@ -7,14 +7,16 @@ export async function getLatAndLong(location) {
 
     const data = await response.json();
 
+    const address = data.results[0].formatted_address;
+
     return {
-        address: data.results[0].formatted_address,
         lat: data.results[0].geometry.location.lat,
         long: data.results[0].geometry.location.lng
     };
 }
 
 function getDarkskyForecast(latitude, longitude) {
-
-    fetch(`https://api.darksky.net/forecast/${DARKSKY_API_KEY}/${latitude},${longitude}`);
+    fetch(
+        `https://api.darksky.net/forecast/${DARKSKY_API_KEY}/${latitude},${longitude}`
+    );
 }
