@@ -1,86 +1,84 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { getWeatherData, fetchWeatherData } from 'actions';
 import { connect } from 'react-redux';
 import { WeatherCard, FlexContainer } from 'components';
-import { changeFoo } from 'actions';
-import { getWeatherData } from 'modules/fetchData.js';
 import './App.css';
 import { CLEAR, CLOUDY, RAIN, PARTLY_CLOUDY, WINDY } from 'utils/constants';
 import { getRandomIntInclusive } from 'modules/numbers';
 
-function App(props) {
-    const days = [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday'
-    ];
+class App extends React.Component {
+    constructor(props) {
+        super(props);
 
-    const forecasts = [CLEAR, CLOUDY, RAIN, PARTLY_CLOUDY, WINDY];
-
-    const weatherData = days.map((day, index) => {
-        return {
-            day,
-            high: Math.round(getRandomIntInclusive(55, 70)),
-            low: Math.round(getRandomIntInclusive(40, 49)),
-            forecast: forecasts[Math.floor(Math.random() * forecasts.length)]
+        this.state = {
+            searchTerm: ''
         };
-    });
+    }
 
-    const [text, setText] = useState('');
-    const [searchTerm, setSearchTerm] = useState('');
-    const [data, setData] = useState('');
-
-    useEffect(() => {
-        // getWeatherData(searchTerm).then(data => {
-        //     setData(data);
-        // });
-    }, [searchTerm]);
-
-    const handleSubmit = e => {
-        e.preventDefault();
-        setSearchTerm(text);
-
-        props.dispatch(changeFoo(searchTerm));
-
-        // getWeatherData(searchTerm).then(response => {
-        //     // console.log(response.results[0]);
-        //     // console.log(response.results[0].geometry.location);
-        //     setData(response);
-        // });
-        // setText('');
+    handleChange = e => {
+        this.setState({
+            [e.target.name]: e.target.value
+        });
     };
 
-    return (
-        <div className="App">
-            <form onSubmit={handleSubmit}>
-                <input
-                    autoComplete="off"
-                    type="text"
-                    name="searchTerm"
-                    placeholder="Search here"
-                    value={text}
-                    onChange={e => setText(e.target.value)}
-                />
-            </form>
-            <h1>{searchTerm}</h1>
-            {data ? (
-                <p>
-                    {data.results[0].geometry.location.lat},
-                    {data.results[0].geometry.location.lng}{' '}
-                </p>
-            ) : (
-                ''
-            )}
-            <FlexContainer type="row">
-                {weatherData.map((item, index) => (
-                    <WeatherCard key={index} data={item} />
-                ))}
-            </FlexContainer>
-        </div>
-    );
+    handleSubmit = e => {
+        e.preventDefault();
+
+        this.props.dispatch(fetchWeatherData(this.state.searchTerm));
+    };
+
+    render() {
+        const days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday'
+        ];
+
+        const forecasts = [CLEAR, CLOUDY, RAIN, PARTLY_CLOUDY, WINDY];
+
+        const weatherData = days.map((day, index) => {
+            return {
+                day,
+                high: Math.round(getRandomIntInclusive(55, 70)),
+                low: Math.round(getRandomIntInclusive(40, 49)),
+                forecast:
+                    forecasts[Math.floor(Math.random() * forecasts.length)]
+            };
+        });
+
+        return (
+            <div className="App">
+                <form onSubmit={this.handleSubmit}>
+                    <input
+                        autoComplete="off"
+                        type="text"
+                        name="searchTerm"
+                        placeholder="Search here"
+                        value={this.state.searchTerm}
+                        onChange={this.handleChange}
+                    />
+                </form>
+                {this.props.isFetching ? <h1>Loading...</h1> : null}
+                {this.props.data ? (
+                    <p>
+                        {this.props.data.results[0].geometry.location.lat},
+                        {this.props.data.results[0].geometry.location.lng}{' '}
+                    </p>
+                ) : (
+                    ''
+                )}
+                <FlexContainer type="row">
+                    {weatherData.map((item, index) => (
+                        <WeatherCard key={index} data={item} />
+                    ))}
+                </FlexContainer>
+            </div>
+        );
+    }
 }
 
 export class ErrorBoundary extends React.Component {
@@ -106,8 +104,8 @@ export class ErrorBoundary extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {};
-};
+const mapStateToProps = state => ({
+    isFetching: state.isFetching
+});
 
 export default connect(mapStateToProps)(App);

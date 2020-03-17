@@ -8,12 +8,10 @@
     justify-content: center;
     align-items: center;
     flex-flow: row wrap;
-    border: 1px solid red;
 }
 
 .FlexContainer-column {
     justify-content: center;
     align-items: center;
     flex-flow: column wrap;
-    border: 1px solid blue;
 }

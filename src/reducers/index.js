@@ -1,20 +1,26 @@
-import { CHANGE_FOO } from 'actions';
+import {
+    FETCH_WEATHER_DATA_REQUEST,
+    FETCH_WEATHER_DATA_SUCCESS
+} from 'actions';
 
 const initialState = {
-    foo: 'bar'
+    isFetching: false
 };
 
-
-
 const rootReducer = (state = initialState, action) => {
-    console.log(state);
-    
-    if (action.type === CHANGE_FOO) {
+    if (action.type === FETCH_WEATHER_DATA_REQUEST) {
         return {
-            foo: action.text
+            ...state,
+            isFetching: true
         };
     }
-    return initialState;
+    if (action.type === FETCH_WEATHER_DATA_SUCCESS) {
+        return {
+            ...state,
+            isFetching: false
+        };
+    }
+    return state;
 };
 
 export default rootReducer;
