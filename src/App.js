@@ -1,7 +1,7 @@
 import React from 'react';
 import { fetchWeatherData } from 'actions';
 import { connect } from 'react-redux';
-import { WeatherCard, FlexContainer } from 'components';
+import { WeatherCard } from 'components';
 import './App.css';
 import { Route } from 'react-router-dom';
 
@@ -35,7 +35,7 @@ class App extends React.Component {
                         autoComplete="off"
                         type="text"
                         name="searchTerm"
-                        placeholder="Search here"
+                        placeholder="Search City or Zip Code"
                         value={this.state.searchTerm}
                         onChange={this.handleChange}
                     />
