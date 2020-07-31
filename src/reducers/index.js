@@ -1,7 +1,7 @@
 import {
     FETCH_WEATHER_DATA_REQUEST,
     FETCH_WEATHER_DATA_SUCCESS,
-    SET_ADDRESS
+    FETCH_WEATHER_DATA_ERROR
 } from 'actions';
 
 const initialState = {
@@ -9,7 +9,8 @@ const initialState = {
     address: '',
     currently: {},
     daily: {},
-    hourly: {}
+    hourly: {},
+    error: ''
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -20,8 +21,6 @@ const rootReducer = (state = initialState, action) => {
         };
     }
     if (action.type === FETCH_WEATHER_DATA_SUCCESS) {
-
-        console.log(action.payload);
         const { daily, hourly, currently, address } = action.payload;
         return {
             ...state,
@@ -32,12 +31,12 @@ const rootReducer = (state = initialState, action) => {
             currently: currently
         };
     }
-
-    if (action.type === SET_ADDRESS) {
+    if (action.type === FETCH_WEATHER_DATA_ERROR) {
+        console.log(action.err);
         return {
             ...state,
             isFetching: false,
-            address: action.address
+            error: action.err
         };
     }
     return state;

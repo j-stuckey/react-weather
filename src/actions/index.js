@@ -12,18 +12,12 @@ const fetchWeatherDataSuccess = (payload) => ({
 });
 
 export const FETCH_WEATHER_DATA_ERROR = 'FETCH_WEATHER_DATA_ERROR';
-const fetchWeatherDataError = (error) => ({
+const fetchWeatherDataError = (err) => ({
     type: FETCH_WEATHER_DATA_ERROR,
-    error
+    err
 });
 
-export const SET_ADDRESS = 'SET_ADDRESS';
-export const setAddress = address => ({
-    type: SET_ADDRESS,
-    address
-});
-
-export const fetchWeatherData = location => (dispatch, getState) => {
+export const fetchWeatherData = (location) => (dispatch, getState) => {
     dispatch(fetchWeatherDataRequest());
 
     fetch(`${API_BASE_URL}/weather?location=${location}`, {
@@ -32,12 +26,11 @@ export const fetchWeatherData = location => (dispatch, getState) => {
             'content-type': 'application/json'
         }
     })
-        .then(res => res.json())
-        .then(res => dispatch(fetchWeatherDataSuccess(res)))
-        .catch(err => dispatch(fetchWeatherDataError(err)));
-    // const addressInfo = await getAddressInfo(location);
-    //
-    // dispatch(setAddress(addressInfo.address));
-    //
-    // const forecast = getDarkskyForecast(addressInfo.lat, addressInfo.long);
+        .then((res) => res.json())
+        .then((res) => {
+            dispatch(fetchWeatherDataSuccess(res));
+        })
+        .catch((err) => {
+            dispatch(fetchWeatherDataError(err));
+        });
 };

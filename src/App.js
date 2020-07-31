@@ -14,24 +14,24 @@ class App extends React.Component {
         };
     }
 
-    handleChange = e => {
+    handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         });
     };
 
-    handleSubmit = e => {
+    handleSubmit = (e) => {
         e.preventDefault();
 
         this.props.dispatch(fetchWeatherData(this.state.searchTerm));
     };
 
     render() {
-
         return (
             <div className="App">
                 <form onSubmit={this.handleSubmit}>
                     <input
+                        className="search-input"
                         autoComplete="off"
                         type="text"
                         name="searchTerm"
@@ -42,20 +42,21 @@ class App extends React.Component {
                 </form>
                 {this.props.isFetching ? <h1>Loading...</h1> : null}
                 <p>{this.props.address}</p>
-                <p>{this.props.currently.summary}</p>
-                <FlexContainer type="row">
 
-                </FlexContainer>
+                {this.props.address && <p>{this.props.currently.summary}</p>}
+                {this.props.error && <p>{this.props.error}</p>}
+
                 <Route exact path="/chart" component={() => <h1>Chart</h1>} />
             </div>
         );
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
     isFetching: state.isFetching,
     address: state.address,
-    currently: state.currently
+    currently: state.currently,
+    error: state.error
 });
 
 export default connect(mapStateToProps)(App);
