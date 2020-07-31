@@ -40,11 +40,10 @@ class App extends React.Component {
                         onChange={this.handleChange}
                     />
                 </form>
-                {this.props.isFetching ? <h1>Loading...</h1> : null}
-                <p>{this.props.address}</p>
+                {this.props.isFetching ? <p>Loading...</p> : null}
+                <h3>{this.props.address}</h3>
 
-                {this.props.address && <p>{this.props.currently.summary}</p>}
-                {this.props.error && <p>{this.props.error}</p>}
+                {this.props.address && <h4>{this.props.currently.summary}</h4>}
 
                 <Route exact path="/chart" component={() => <h1>Chart</h1>} />
             </div>
@@ -55,8 +54,7 @@ class App extends React.Component {
 const mapStateToProps = (state) => ({
     isFetching: state.isFetching,
     address: state.address,
-    currently: state.currently,
-    error: state.error
+    currently: state.currently
 });
 
 export default connect(mapStateToProps)(App);
