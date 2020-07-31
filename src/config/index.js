@@ -1,4 +1,3 @@
 module.exports = {
-    GOOGLE_API_KEY: process.env.REACT_APP_GOOGLE_API_KEY,
-    DARKSKY_API_KEY: process.env.REACT_APP_DARKSKY_API_KEY
+    API_BASE_URL: process.env.REACT_APP_API_BASE_URL || 'http://localhost:8080/api'
 };

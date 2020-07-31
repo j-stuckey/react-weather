@@ -1,10 +1,9 @@
 import React from 'react';
-import { getWeatherData, fetchWeatherData } from 'actions';
+import { fetchWeatherData } from 'actions';
 import { connect } from 'react-redux';
 import { WeatherCard, FlexContainer } from 'components';
 import './App.css';
-import { CLEAR, CLOUDY, RAIN, PARTLY_CLOUDY, WINDY } from 'utils/constants';
-import { getRandomIntInclusive } from 'modules/numbers';
+import { Route } from 'react-router-dom';
 
 class App extends React.Component {
     constructor(props) {
@@ -28,27 +27,6 @@ class App extends React.Component {
     };
 
     render() {
-        const days = [
-            'Monday',
-            'Tuesday',
-            'Wednesday',
-            'Thursday',
-            'Friday',
-            'Saturday',
-            'Sunday'
-        ];
-
-        const forecasts = [CLEAR, CLOUDY, RAIN, PARTLY_CLOUDY, WINDY];
-
-        const weatherData = days.map((day, index) => {
-            return {
-                day,
-                high: Math.round(getRandomIntInclusive(55, 70)),
-                low: Math.round(getRandomIntInclusive(40, 49)),
-                forecast:
-                    forecasts[Math.floor(Math.random() * forecasts.length)]
-            };
-        });
 
         return (
             <div className="App">
@@ -63,49 +41,21 @@ class App extends React.Component {
                     />
                 </form>
                 {this.props.isFetching ? <h1>Loading...</h1> : null}
-                {this.props.data ? (
-                    <p>
-                        {this.props.data.results[0].geometry.location.lat},
-                        {this.props.data.results[0].geometry.location.lng}{' '}
-                    </p>
-                ) : (
-                    ''
-                )}
+                <p>{this.props.address}</p>
+                <p>{this.props.currently.summary}</p>
                 <FlexContainer type="row">
-                    {weatherData.map((item, index) => (
-                        <WeatherCard key={index} data={item} />
-                    ))}
+
                 </FlexContainer>
+                <Route exact path="/chart" component={() => <h1>Chart</h1>} />
             </div>
         );
     }
 }
 
-export class ErrorBoundary extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-            hasError: false
-        };
-    }
-
-    componentDidCatch(error, info) {
-        // Display fallback UI
-        this.setState({ hasError: true });
-        // You can also log the error to an error reporting service
-    }
-
-    render() {
-        if (this.state.hasError) {
-            return <h1>Something went wrong.</h1>;
-        }
-        return this.props.children;
-    }
-}
-
 const mapStateToProps = state => ({
-    isFetching: state.isFetching
+    isFetching: state.isFetching,
+    address: state.address,
+    currently: state.currently
 });
 
 export default connect(mapStateToProps)(App);
