@@ -40,10 +40,18 @@ class App extends React.Component {
                         onChange={this.handleChange}
                     />
                 </form>
-                {this.props.isFetching ? <p>Loading...</p> : null}
+                {this.props.isFetching && <p>Loading...</p>}
                 <h3>{this.props.address}</h3>
 
                 {this.props.address && <h4>{this.props.currently.summary}</h4>}
+
+                {this.props.currently.time && (
+                    <div className="weather-cards">
+                        {this.props.daily.data.map((day) => {
+                            return <WeatherCard key={day.time} data={day} />;
+                        })}
+                    </div>
+                )}
 
                 <Route exact path="/chart" component={() => <h1>Chart</h1>} />
             </div>
@@ -54,7 +62,8 @@ class App extends React.Component {
 const mapStateToProps = (state) => ({
     isFetching: state.isFetching,
     address: state.address,
-    currently: state.currently
+    currently: state.currently,
+    daily: state.daily
 });
 
 export default connect(mapStateToProps)(App);

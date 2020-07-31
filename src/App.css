@@ -6,17 +6,30 @@
     padding: 20px;
     min-height: 100vh;
     padding: 1rem 3rem;
+    /* color: white; */
+    /* background-color: #141414; */
 }
 
 .search-input {
-    padding: 10px 15px;
-    width: 30vw;
+    padding: 12px 20px;
+    width: 50vw;
     margin-top: 50px;
     margin-bottom: 30px;
-    border-radius: 3px;
+    border-radius: 5px;
     border: 1px solid black;
+    outline: none;
+    /* font-weight: bold; */
+    /* background: #333333; */
 }
 
+/* .search-input::placeholder {
+  color: white;
+} */
+
+.weather-cards {
+    display: flex;
+    flex-flow: row wrap;
+}
 @media only screen and (max-width: 600px) {
     .search-input {
         width: 70vw;

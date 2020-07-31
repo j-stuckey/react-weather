@@ -1,8 +1,9 @@
 .WeatherCard {
     border: 1px solid gray;
+    border-radius: 5px;
     width: 175px;
     margin: 10px;
-    border-radius: 5px;
+    padding: 1rem;
 }
 
 .WeatherCard:focus {

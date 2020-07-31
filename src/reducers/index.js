@@ -13,6 +13,12 @@ const initialState = {
     error: ''
 };
 
+// defaults to five day forecast
+function getDays(forecast, numberOfDays = 5) {
+    forecast.data = forecast.data.slice(0, numberOfDays);
+    return forecast;
+}
+
 const rootReducer = (state = initialState, action) => {
     if (action.type === FETCH_WEATHER_DATA_REQUEST) {
         return {
@@ -23,11 +29,12 @@ const rootReducer = (state = initialState, action) => {
     if (action.type === FETCH_WEATHER_DATA_SUCCESS) {
         const { daily, hourly, currently, address } = action.payload;
         console.log(action.payload);
+
         return {
             ...state,
             isFetching: false,
             address: address,
-            daily: daily,
+            daily: getDays(daily),
             hourly,
             currently: currently
         };

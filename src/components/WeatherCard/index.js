@@ -1,16 +1,20 @@
 import React from 'react';
 import WeatherIcon from 'components/WeatherIcon';
 import './WeatherCard.css';
+import Moment from 'react-moment';
 
 function WeatherCard(props) {
-    const { day, high, low, forecast } = props.data;
+    const { time, temperatureHigh, temperatureLow, icon } = props.data;
 
     return (
         <div className="WeatherCard">
-            <p>{day}</p>
-            <WeatherIcon icon={forecast} />
+            <Moment format="MMM D" withTitle unix>
+                {time}
+            </Moment>
+            <WeatherIcon icon={icon} />
             <p>
-                {high} º F / {low} º F
+                {Math.round(temperatureHigh)} º F / {Math.round(temperatureLow)}{' '}
+                º F
             </p>
         </div>
     );
