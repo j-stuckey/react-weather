@@ -3,11 +3,11 @@
     align-items: center;
     flex-direction: column;
     text-align: center;
-    padding: 20px;
+    /* padding: 20px; */
     min-height: 100vh;
-    padding: 1rem 3rem;
-    /* color: white; */
-    /* background-color: #141414; */
+    /* padding: 1rem 3rem; */
+    /* color: white;
+    background-color: #141414; */
 }
 
 .search-input {
@@ -18,8 +18,7 @@
     border-radius: 5px;
     border: 1px solid black;
     outline: none;
-    /* font-weight: bold; */
-    /* background: #333333; */
+    font-weight: bold;
 }
 
 /* .search-input::placeholder {

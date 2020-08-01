@@ -8,7 +8,7 @@ function WeatherCard(props) {
 
     return (
         <div className="WeatherCard">
-            <Moment format="MMM D" withTitle unix>
+            <Moment format="ddd MMM D" unix>
                 {time}
             </Moment>
             <WeatherIcon icon={icon} />

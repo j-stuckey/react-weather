@@ -17,6 +17,22 @@ const fetchWeatherDataError = (err) => ({
     err
 });
 
+export const getForecast = (latitude, longitude) => (dispatch) => {
+    dispatch(fetchWeatherDataRequest());
+
+    fetch(`${API_BASE_URL}/forecast?latitude=${latitude}&longitude=${longitude}`, {
+        method: 'GET',
+        headers: {
+            'content-type': 'application/json'
+        }
+    })
+        .then((res) => res.json())
+        .then((res) => dispatch(fetchWeatherDataSuccess(res)))
+        .catch((err) => {
+            dispatch(fetchWeatherDataError(err));
+        });
+};
+
 export const fetchWeatherData = (location) => (dispatch, getState) => {
     dispatch(fetchWeatherDataRequest());
 

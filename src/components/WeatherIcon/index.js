@@ -4,7 +4,8 @@ import cloudy from 'assets/Cloudy.png';
 import partlyCloudy from 'assets/PartlyCloudy.png';
 import windy from 'assets/Windy.png';
 import rain from 'assets/Rain.png';
-import { CLEAR, CLOUDY, PARTLY_CLOUDY, RAIN, WINDY } from 'utils/constants';
+import clearNight from 'assets/ClearNight.png';
+import { CLEAR, CLOUDY, PARTLY_CLOUDY, RAIN, WINDY, CLEAR_NIGHT } from 'utils/constants';
 
 function WeatherIcon(props) {
     if (props.icon === CLEAR) {
@@ -17,6 +18,8 @@ function WeatherIcon(props) {
         return <img src={rain} alt="rain" />;
     } else if (props.icon === WINDY) {
         return <img src={windy} alt="windy" />;
+    } else if (props.icon === CLEAR_NIGHT) {
+        return <img src={clearNight} alt="clear night"/>;
     }
     return <p>No image</p>;
 }

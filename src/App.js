@@ -1,5 +1,5 @@
 import React from 'react';
-import { fetchWeatherData } from 'actions';
+import { fetchWeatherData, getForecast } from 'actions';
 import { connect } from 'react-redux';
 import { WeatherCard } from 'components';
 import './App.css';
@@ -25,6 +25,14 @@ class App extends React.Component {
 
         this.props.dispatch(fetchWeatherData(this.state.searchTerm));
     };
+
+    componentDidMount() {
+        navigator.geolocation.getCurrentPosition((position) => {
+            const { latitude, longitude } = position.coords;
+
+            this.props.dispatch(getForecast(latitude, longitude));
+        });
+    }
 
     render() {
         return (
