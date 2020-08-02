@@ -45,6 +45,7 @@ export const fetchWeatherData = (location) => (dispatch, getState) => {
         .then((res) => res.json())
         .then((res) => {
             dispatch(fetchWeatherDataSuccess(res));
+            console.log(getState());
         })
         .catch((err) => {
             dispatch(fetchWeatherDataError(err));
