@@ -27,7 +27,7 @@ const rootReducer = (state = initialState, action) => {
         };
     }
     if (action.type === FETCH_WEATHER_DATA_SUCCESS) {
-        const { daily, hourly, currently, address } = action.payload;
+        const { daily, hourly, currently, address, forecast } = action.payload;
         console.log(action.payload);
 
         return {

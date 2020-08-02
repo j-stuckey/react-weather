@@ -5,6 +5,8 @@ import { WeatherCard } from 'components';
 import './App.css';
 import { Route } from 'react-router-dom';
 
+import Moment from 'react-moment';
+
 class App extends React.Component {
     constructor(props) {
         super(props);
@@ -48,17 +50,37 @@ class App extends React.Component {
                         onChange={this.handleChange}
                     />
                 </form>
-                {this.props.isFetching && <p>Loading...</p>}
-                <h3>{this.props.address}</h3>
 
-                {this.props.address && <h4>{this.props.currently.summary}</h4>}
+                {this.props.isFetching ? (
+                    <h1>Loading...</h1>
+                ) : (
+                    <React.Fragment>
+                        <h3>{this.props.address}</h3>
 
-                {this.props.currently.time && (
-                    <div className="weather-cards">
-                        {this.props.daily.data.map((day) => {
-                            return <WeatherCard key={day.time} data={day} />;
-                        })}
-                    </div>
+                        {this.props.address && (
+                            <div>
+                                <h4>{this.props.daily.data[0].summary}</h4>
+                                <h5>
+                                    <Moment format="ddd MMM D HH:mm" unix>
+                                        {new Date(this.props.currently.time)}
+                                    </Moment>
+                                </h5>
+                            </div>
+                        )}
+
+                        {this.props.currently.time && (
+                            <div className="weather-cards">
+                                {this.props.daily.data.map((day) => {
+                                    return (
+                                        <WeatherCard
+                                            key={day.time}
+                                            data={day}
+                                        />
+                                    );
+                                })}
+                            </div>
+                        )}
+                    </React.Fragment>
                 )}
 
                 <Route exact path="/chart" component={() => <h1>Chart</h1>} />
@@ -67,11 +89,13 @@ class App extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => ({
-    isFetching: state.isFetching,
-    address: state.address,
-    currently: state.currently,
-    daily: state.daily
-});
+const mapStateToProps = (state) => {
+    return {
+        isFetching: state.isFetching,
+        address: state.address,
+        currently: state.currently,
+        daily: state.daily
+    };
+};
 
 export default connect(mapStateToProps)(App);
