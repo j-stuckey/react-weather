@@ -11,3 +11,7 @@
 .WeatherCard:focus {
     outline: blue;
 }
+
+.precipitation {
+    text-transform: capitalize;
+}
