@@ -1,4 +1,5 @@
 import { API_BASE_URL } from 'config';
+import normalizeResponseErrors from 'utils/normalizeResponseErrors';
 
 export const FETCH_WEATHER_DATA_REQUEST = 'FETCH_WEATHER_DATA_REQUEST';
 export const fetchWeatherDataRequest = () => ({
@@ -20,13 +21,16 @@ const fetchWeatherDataError = (err) => ({
 export const getForecast = (latitude, longitude) => (dispatch) => {
     dispatch(fetchWeatherDataRequest());
 
-    fetch(`${API_BASE_URL}/forecast?latitude=${latitude}&longitude=${longitude}`, {
-        method: 'GET',
-        headers: {
-            'content-type': 'application/json'
+    fetch(
+        `${API_BASE_URL}/forecast?latitude=${latitude}&longitude=${longitude}`,
+        {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json'
+            }
         }
-    })
-        .then((res) => res.json())
+    )
+        .then((res) => normalizeResponseErrors(res))
         .then((res) => dispatch(fetchWeatherDataSuccess(res)))
         .catch((err) => {
             dispatch(fetchWeatherDataError(err));
@@ -42,12 +46,7 @@ export const fetchWeatherData = (location) => (dispatch, getState) => {
             'content-type': 'application/json'
         }
     })
-        .then((res) => res.json())
-        .then((res) => {
-            dispatch(fetchWeatherDataSuccess(res));
-            console.log(getState());
-        })
-        .catch((err) => {
-            dispatch(fetchWeatherDataError(err));
-        });
+        .then((res) => normalizeResponseErrors(res))
+        .then((res) => dispatch(fetchWeatherDataSuccess(res)))
+        .catch((err) => dispatch(fetchWeatherDataError(err)));
 };

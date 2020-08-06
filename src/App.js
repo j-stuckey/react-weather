@@ -50,7 +50,7 @@ class App extends React.Component {
                         onChange={this.handleChange}
                     />
                 </form>
-
+                {this.props.error && <p>{this.props.error}</p>}
                 {this.props.isFetching ? (
                     <h1>Loading...</h1>
                 ) : (
@@ -62,13 +62,13 @@ class App extends React.Component {
                                 <h4>{this.props.daily.data[0].summary}</h4>
                                 <h5>
                                     <Moment format="ddd MMM D HH:mm" unix>
-                                        {new Date(this.props.currently.time)}
+                                        {new Date(this.props.current.time)}
                                     </Moment>
                                 </h5>
                             </div>
                         )}
 
-                        {this.props.currently.time && (
+                        {this.props.current.time && (
                             <div className="weather-cards">
                                 {this.props.daily.data.map((day) => {
                                     return (
@@ -93,8 +93,9 @@ const mapStateToProps = (state) => {
     return {
         isFetching: state.isFetching,
         address: state.address,
-        currently: state.currently,
-        daily: state.daily
+        current: state.current,
+        daily: state.daily,
+        error: state.error
     };
 };
 

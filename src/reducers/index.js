@@ -7,7 +7,7 @@ import {
 const initialState = {
     isFetching: false,
     address: '',
-    currently: {},
+    current: {},
     daily: {},
     hourly: {},
     error: ''
@@ -32,19 +32,17 @@ const rootReducer = (state = initialState, action) => {
         return {
             ...state,
             isFetching: false,
-            alerts: forecast.alerts,
             address: address,
             daily: numberOfDays(daily, 5),
             hourly,
-            currently: currently
+            current: currently
         };
     }
     if (action.type === FETCH_WEATHER_DATA_ERROR) {
-        console.log(action.err);
         return {
             ...state,
             isFetching: false,
-            error: action.err
+            error: action.err.message
         };
     }
     return state;
